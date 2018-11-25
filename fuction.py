@@ -9,14 +9,14 @@ def imgprint(name, img):
 def morph_dilatation(img):
     # Rect Kernel
     kernel = cv.getStructuringElement(cv.MORPH_RECT, (10, 10))
-    kernel_close = cv.getStructuringElement(cv.MORPH_RECT, (16, 16))
+    kernel_close = cv.getStructuringElement(cv.MORPH_RECT, (12, 12))
     # imgprint(img)
     img = cv.morphologyEx(img, cv.MORPH_CLOSE, kernel_close)
     # imgprint(img)
     img = cv.morphologyEx(img, cv.MORPH_OPEN, kernel)
     # imgprint(img)
-    img = cv.dilate(img, kernel, iterations=2)
-    # imgprint(img)
+    # img = cv.dilate(img, kernel, iterations=2)
+    # imgprint("final", img)
     return img
 
 

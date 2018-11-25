@@ -2048,7 +2048,7 @@ static __Pyx_memviewslice __pyx_f_10background_self_background(__Pyx_memviewslic
  * 
  *     for i in range(0, lin):             # <<<<<<<<<<<<<<
  *         for j in range(0, col):
- *             image[i, j] = fore[i, j] if image[i, j] > 0 else back[i, j]
+ *             image[i, j] = fore[i, j] if image[i, j] == 0 else back[i, j]
  */
   __pyx_t_1 = __pyx_v_lin;
   __pyx_t_2 = __pyx_t_1;
@@ -2059,7 +2059,7 @@ static __Pyx_memviewslice __pyx_f_10background_self_background(__Pyx_memviewslic
  * 
  *     for i in range(0, lin):
  *         for j in range(0, col):             # <<<<<<<<<<<<<<
- *             image[i, j] = fore[i, j] if image[i, j] > 0 else back[i, j]
+ *             image[i, j] = fore[i, j] if image[i, j] == 0 else back[i, j]
  *     return image
  */
     __pyx_t_4 = __pyx_v_col;
@@ -2070,7 +2070,7 @@ static __Pyx_memviewslice __pyx_f_10background_self_background(__Pyx_memviewslic
       /* "background.pyx":11
  *     for i in range(0, lin):
  *         for j in range(0, col):
- *             image[i, j] = fore[i, j] if image[i, j] > 0 else back[i, j]             # <<<<<<<<<<<<<<
+ *             image[i, j] = fore[i, j] if image[i, j] == 0 else back[i, j]             # <<<<<<<<<<<<<<
  *     return image
  * 
  */
@@ -2078,7 +2078,7 @@ static __Pyx_memviewslice __pyx_f_10background_self_background(__Pyx_memviewslic
       __pyx_t_9 = __pyx_v_j;
       if (__pyx_t_8 < 0) __pyx_t_8 += __pyx_v_image.shape[0];
       if (__pyx_t_9 < 0) __pyx_t_9 += __pyx_v_image.shape[1];
-      if ((((*((unsigned char *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_image.data + __pyx_t_8 * __pyx_v_image.strides[0]) ) + __pyx_t_9 * __pyx_v_image.strides[1]) ))) > 0) != 0)) {
+      if ((((*((unsigned char *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_image.data + __pyx_t_8 * __pyx_v_image.strides[0]) ) + __pyx_t_9 * __pyx_v_image.strides[1]) ))) == 0) != 0)) {
         __pyx_t_10 = __pyx_v_i;
         __pyx_t_11 = __pyx_v_j;
         if (__pyx_t_10 < 0) __pyx_t_10 += __pyx_v_fore.shape[0];
@@ -2101,7 +2101,7 @@ static __Pyx_memviewslice __pyx_f_10background_self_background(__Pyx_memviewslic
 
   /* "background.pyx":12
  *         for j in range(0, col):
- *             image[i, j] = fore[i, j] if image[i, j] > 0 else back[i, j]
+ *             image[i, j] = fore[i, j] if image[i, j] == 0 else back[i, j]
  *     return image             # <<<<<<<<<<<<<<
  * 
  */

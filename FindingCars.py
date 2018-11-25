@@ -47,20 +47,21 @@ while ret:
     imgprint("forregound", foreground)
 
     # Fine-grained segmentation of Current image
-    #diff = cv.absdiff(foreground, previus_foreground)
-    #imgprint("melhorado1", diff)
-    #a, diff = cv.threshold(diff, 80, 255, cv.THRESH_BINARY)
-    #imgprint("melhorado", diff)
-    #frame_gray *= diff
-    #frame_gray *= (1 - diff)
-    #imgprint("vamo", frame_gray)
+    diff2 = cv.absdiff(foreground, previus_foreground)
+    imgprint("diff2", diff2)
+    a, diff2 = cv.threshold(diff2, 120, 255, cv.THRESH_BINARY)
+    imgprint("melhorado", diff2)
+    back1 = frame_gray * diff2
+    fore1 = frame_gray * (1 - diff2)
+    # imgprint("Back melhor", back1)
+    # imgprint("Fore melhor", fore1)
 
     # Self adaptative background
-    alfa = 0.9
+    alfa = 0.5
 
     matriz[:, :] = (1 - alfa) * background[:, :] + alfa * foreground[:, :]
     imgprint("matriz", matriz)
-    background2 = self_background(edges, foreground, background)
+    background2 = self_background(binary_mask, matriz, background)
     background2 = np.asarray(background2)
     imgprint("background2", background2)
 

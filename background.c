@@ -2014,15 +2014,17 @@ static __Pyx_memviewslice __pyx_f_10background_self_background(__Pyx_memviewslic
   int __pyx_t_4;
   int __pyx_t_5;
   int __pyx_t_6;
-  unsigned char __pyx_t_7;
+  Py_ssize_t __pyx_t_7;
   Py_ssize_t __pyx_t_8;
-  Py_ssize_t __pyx_t_9;
+  int __pyx_t_9;
   Py_ssize_t __pyx_t_10;
   Py_ssize_t __pyx_t_11;
   Py_ssize_t __pyx_t_12;
   Py_ssize_t __pyx_t_13;
   Py_ssize_t __pyx_t_14;
   Py_ssize_t __pyx_t_15;
+  Py_ssize_t __pyx_t_16;
+  Py_ssize_t __pyx_t_17;
   __Pyx_RefNannySetupContext("self_background", 0);
 
   /* "background.pyx":6
@@ -2048,7 +2050,7 @@ static __Pyx_memviewslice __pyx_f_10background_self_background(__Pyx_memviewslic
  * 
  *     for i in range(0, lin):             # <<<<<<<<<<<<<<
  *         for j in range(0, col):
- *             image[i, j] = fore[i, j] if image[i, j] == 0 else back[i, j]
+ *             if image[i, j] > 0:
  */
   __pyx_t_1 = __pyx_v_lin;
   __pyx_t_2 = __pyx_t_1;
@@ -2059,8 +2061,8 @@ static __Pyx_memviewslice __pyx_f_10background_self_background(__Pyx_memviewslic
  * 
  *     for i in range(0, lin):
  *         for j in range(0, col):             # <<<<<<<<<<<<<<
- *             image[i, j] = fore[i, j] if image[i, j] == 0 else back[i, j]
- *     return image
+ *             if image[i, j] > 0:
+ *                 image[i, j] = fore[i, j]
  */
     __pyx_t_4 = __pyx_v_col;
     __pyx_t_5 = __pyx_t_4;
@@ -2070,38 +2072,69 @@ static __Pyx_memviewslice __pyx_f_10background_self_background(__Pyx_memviewslic
       /* "background.pyx":11
  *     for i in range(0, lin):
  *         for j in range(0, col):
- *             image[i, j] = fore[i, j] if image[i, j] == 0 else back[i, j]             # <<<<<<<<<<<<<<
- *     return image
- * 
+ *             if image[i, j] > 0:             # <<<<<<<<<<<<<<
+ *                 image[i, j] = fore[i, j]
+ *             else:
  */
-      __pyx_t_8 = __pyx_v_i;
-      __pyx_t_9 = __pyx_v_j;
-      if (__pyx_t_8 < 0) __pyx_t_8 += __pyx_v_image.shape[0];
-      if (__pyx_t_9 < 0) __pyx_t_9 += __pyx_v_image.shape[1];
-      if ((((*((unsigned char *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_image.data + __pyx_t_8 * __pyx_v_image.strides[0]) ) + __pyx_t_9 * __pyx_v_image.strides[1]) ))) == 0) != 0)) {
+      __pyx_t_7 = __pyx_v_i;
+      __pyx_t_8 = __pyx_v_j;
+      if (__pyx_t_7 < 0) __pyx_t_7 += __pyx_v_image.shape[0];
+      if (__pyx_t_8 < 0) __pyx_t_8 += __pyx_v_image.shape[1];
+      __pyx_t_9 = (((*((unsigned char *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_image.data + __pyx_t_7 * __pyx_v_image.strides[0]) ) + __pyx_t_8 * __pyx_v_image.strides[1]) ))) > 0) != 0);
+      if (__pyx_t_9) {
+
+        /* "background.pyx":12
+ *         for j in range(0, col):
+ *             if image[i, j] > 0:
+ *                 image[i, j] = fore[i, j]             # <<<<<<<<<<<<<<
+ *             else:
+ *                 image[i, j] = back[i, j]
+ */
         __pyx_t_10 = __pyx_v_i;
         __pyx_t_11 = __pyx_v_j;
         if (__pyx_t_10 < 0) __pyx_t_10 += __pyx_v_fore.shape[0];
         if (__pyx_t_11 < 0) __pyx_t_11 += __pyx_v_fore.shape[1];
-        __pyx_t_7 = (*((unsigned char *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_fore.data + __pyx_t_10 * __pyx_v_fore.strides[0]) ) + __pyx_t_11 * __pyx_v_fore.strides[1]) )));
-      } else {
         __pyx_t_12 = __pyx_v_i;
         __pyx_t_13 = __pyx_v_j;
-        if (__pyx_t_12 < 0) __pyx_t_12 += __pyx_v_back.shape[0];
-        if (__pyx_t_13 < 0) __pyx_t_13 += __pyx_v_back.shape[1];
-        __pyx_t_7 = (*((unsigned char *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_back.data + __pyx_t_12 * __pyx_v_back.strides[0]) ) + __pyx_t_13 * __pyx_v_back.strides[1]) )));
+        if (__pyx_t_12 < 0) __pyx_t_12 += __pyx_v_image.shape[0];
+        if (__pyx_t_13 < 0) __pyx_t_13 += __pyx_v_image.shape[1];
+        *((unsigned char *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_image.data + __pyx_t_12 * __pyx_v_image.strides[0]) ) + __pyx_t_13 * __pyx_v_image.strides[1]) )) = (*((unsigned char *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_fore.data + __pyx_t_10 * __pyx_v_fore.strides[0]) ) + __pyx_t_11 * __pyx_v_fore.strides[1]) )));
+
+        /* "background.pyx":11
+ *     for i in range(0, lin):
+ *         for j in range(0, col):
+ *             if image[i, j] > 0:             # <<<<<<<<<<<<<<
+ *                 image[i, j] = fore[i, j]
+ *             else:
+ */
+        goto __pyx_L7;
       }
-      __pyx_t_14 = __pyx_v_i;
-      __pyx_t_15 = __pyx_v_j;
-      if (__pyx_t_14 < 0) __pyx_t_14 += __pyx_v_image.shape[0];
-      if (__pyx_t_15 < 0) __pyx_t_15 += __pyx_v_image.shape[1];
-      *((unsigned char *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_image.data + __pyx_t_14 * __pyx_v_image.strides[0]) ) + __pyx_t_15 * __pyx_v_image.strides[1]) )) = __pyx_t_7;
+
+      /* "background.pyx":14
+ *                 image[i, j] = fore[i, j]
+ *             else:
+ *                 image[i, j] = back[i, j]             # <<<<<<<<<<<<<<
+ *     return image
+ * 
+ */
+      /*else*/ {
+        __pyx_t_14 = __pyx_v_i;
+        __pyx_t_15 = __pyx_v_j;
+        if (__pyx_t_14 < 0) __pyx_t_14 += __pyx_v_back.shape[0];
+        if (__pyx_t_15 < 0) __pyx_t_15 += __pyx_v_back.shape[1];
+        __pyx_t_16 = __pyx_v_i;
+        __pyx_t_17 = __pyx_v_j;
+        if (__pyx_t_16 < 0) __pyx_t_16 += __pyx_v_image.shape[0];
+        if (__pyx_t_17 < 0) __pyx_t_17 += __pyx_v_image.shape[1];
+        *((unsigned char *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_image.data + __pyx_t_16 * __pyx_v_image.strides[0]) ) + __pyx_t_17 * __pyx_v_image.strides[1]) )) = (*((unsigned char *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_back.data + __pyx_t_14 * __pyx_v_back.strides[0]) ) + __pyx_t_15 * __pyx_v_back.strides[1]) )));
+      }
+      __pyx_L7:;
     }
   }
 
-  /* "background.pyx":12
- *         for j in range(0, col):
- *             image[i, j] = fore[i, j] if image[i, j] == 0 else back[i, j]
+  /* "background.pyx":15
+ *             else:
+ *                 image[i, j] = back[i, j]
  *     return image             # <<<<<<<<<<<<<<
  * 
  */

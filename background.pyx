@@ -8,6 +8,9 @@ cpdef unsigned char[:, :] self_background(unsigned char [:, :] image, unsigned c
 
     for i in range(0, lin):
         for j in range(0, col):
-            image[i, j] = fore[i, j] if image[i, j] == 0 else back[i, j]
+            if image[i, j] > 0:
+                image[i, j] = fore[i, j]
+            else:
+                image[i, j] = back[i, j]
     return image
 

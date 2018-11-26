@@ -10,7 +10,7 @@ frame1 = cv.normalize(frame1, 0, 1, norm_type=cv.NORM_MINMAX)
 Bg = frame1
 Thresh = np.zeros((frame1.shape[0], frame1.shape[1]))
 Thresh += 0.5
-alpha = 0.8
+alpha = 0.9
 
 _, frame2 = cap.read()
 B, G, R = cv.split(frame2)
@@ -22,9 +22,6 @@ frame3 = (B + G + R) / 3
 frame3 = cv.normalize(frame3, 0, 1, norm_type=cv.NORM_MINMAX)
 
 while 1:
-
-
-
     diff1 = np.abs(frame2 - frame3)
     diff2 = np.abs(frame1 - frame3)
 
@@ -49,9 +46,9 @@ while 1:
 
     cv.imshow('bg', Bg)
     cv.imshow('vi', frame3)
-    # cv.imshow('sal1', diff1_T)
-    # cv.imshow('sal2', diff2_T)
-    # cv.imshow('sal3', norm_moving)
+    cv.imshow('sal1', diff1_T)
+    cv.imshow('sal2', diff2_T)
+    cv.imshow('sal3', norm_moving)
     cv.waitKey()
 
     frame1 = frame2

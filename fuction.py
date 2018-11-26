@@ -46,11 +46,11 @@ def morph_dilatation(img):
     kernel_dilate = cv.getStructuringElement(cv.MORPH_RECT, (6, 6))
     # imgprint(img)
     img = cv.morphologyEx(img, cv.MORPH_CLOSE, kernel_close)
-    # img = cv.GaussianBlur(img, (9, 9), 0)
+    img = cv.GaussianBlur(img, (9, 9), 0)
     # imgprint(img)
     img = cv.morphologyEx(img, cv.MORPH_OPEN, kernel)
     # imgprint(img)
-    # img = cv.dilate(img, kernel_dilate, iterations=1)
+    img = cv.dilate(img, kernel_dilate, iterations=1)
     return img
 
 

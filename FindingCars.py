@@ -1,7 +1,7 @@
 import numpy as np
 from fuction import *
 from background import *
-cap = cv.VideoCapture("teste.avi")
+cap = cv.VideoCapture("overpass.mp4")
 ret, frame = cap.read()
 linhas, colunas, tipo = frame.shape
 
@@ -16,15 +16,15 @@ ground = np.zeros((linhas, colunas), dtype=np.uint8)
 matriz = np.zeros((linhas, colunas), dtype=np.uint8)
 ret = True
 while ret:
-    while cont < 1400:
+    '''while cont < 1400:
         ret, frame_bgr = cap.read()
-        cont += 1
+        cont += 1'''
     ret, frame_bgr = cap.read()
     # 1 Passo- Converter o frame em cinza
     frame_gray = cv.cvtColor(frame_bgr, cv.COLOR_BGR2GRAY)
     if cont == 0:
         previus_background = frame_gray
-
+    cont += 1
     # 2 Passo - Diferenca do pixel atual e o anterior
     diff = cv.absdiff(frame_gray, previus_frame)
 
@@ -48,22 +48,22 @@ while ret:
     imgprint("forregound", foreground)
 
     # Fine-grained segmentation of Current image
-    _, mask = cv.threshold(previus_background, T, 1, cv.THRESH_BINARY_INV)
-    diff2 = cv.absdiff(foreground, previus_foreground * mask)
-    _, diff2 = cv.threshold(diff2, T, 1, cv.THRESH_BINARY)
-    background = frame_gray * (1 - diff2)
-    foreground = frame_gray * diff2
-    imgprint("edges", edges * 255)
-    imgprint("Back melhor", background)
-    imgprint("Fore melhor", foreground)
+    #_, mask = cv.threshold(previus_background, T, 1, cv.THRESH_BINARY_INV)
+    # diff2 = cv.absdiff(foreground, previus_foreground * mask)
+    # _, diff2 = cv.threshold(diff2, T, 1, cv.THRESH_BINARY)
+    # background = frame_gray * (1 - diff2)
+    # foreground = frame_gray * diff2
+    # imgprint("edges", edges * 255)
+    # imgprint("Back melhor", background)
+    # imgprint("Fore melhor", foreground)
 
     # Self adaptative background
-    alfa = alfa_iluminacao(frame_gray, previus_frame)
-    alfa = 0.01
+    # alfa = alfa_iluminacao(frame_gray, previus_frame)
+    alfa = 0.2
     matriz[:, :] = (1 - alfa) * previus_background[:, :] + alfa * frame_gray[:, :]
-    self_adap_background = self_background(diff, matriz, previus_background)
+    self_adap_background = self_background(binary_mask, matriz, previus_background)
     background = np.asarray(self_adap_background)
-    imgprint("background2", background)
+    imgprint("background10", background)
 
     # Contornos
     _, contornos, _ = cv.findContours(edges, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_SIMPLE)

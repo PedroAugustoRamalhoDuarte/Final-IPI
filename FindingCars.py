@@ -1,4 +1,3 @@
-import cv2 as cv
 import numpy as np
 from fuction import *
 from background import *
@@ -18,19 +17,19 @@ matriz = np.zeros((linhas, colunas), dtype=np.uint8)
 ret = True
 while ret:
     ret, frame_bgr = cap.read()
-    if cont == 0:
-        previus_background = frame_gray
 
     # 1 Passo- Converter o frame em cinza
     frame_gray = cv.cvtColor(frame_bgr, cv.COLOR_BGR2GRAY)
     # imgprint("frame cinza", frame_gray)
+    if cont == 0:
+        previus_background = frame_gray
 
     # 2 Passo - Diferenca do pixel atual e o anterior
     diff = cv.absdiff(frame_gray, previus_frame)
     # imgprint("diferrence", diff)
 
     # 3 Passo - Thresh Holder
-    T = int(0.2* np.amax(diff))
+    T = int(0.1 * np.amax(diff))
     a, binary_mask = cv.threshold(diff, T, 255, cv.THRESH_BINARY)
     # imgprint("mascara binaria", binary_mask)
 
@@ -56,19 +55,20 @@ while ret:
     # imgprint("diff2", diff2)
     a, diff2 = cv.threshold(diff2, T, 1, cv.THRESH_BINARY)
     # imgprint("melhorado", diff2)
-    background2 = frame_gray * (1 - diff2)
-    foreground2 = frame_gray * diff2
-    #imgprint("Back melhor", background2)
-    imgprint("Fore melhor", foreground2)
+    background = frame_gray * (1 - diff2)
+    foreground = frame_gray * diff2
+    # imgprint("Back melhor", background2)
+    imgprint("Fore melhor", foreground)
 
     # Self adaptative background
-    alfa = 0.8
-    matriz[:, :] = alfa * previus_background[:, :] + (1 - alfa) * frame_gray[:, :]
+    alfa = alfa_iluminacao(frame_gray, previus_frame)
+    alfa = 0.1
+    matriz[:, :] = (1 - alfa) * previus_background[:, :] + alfa * frame_gray[:, :]
     # imgprint("matriz", matriz)
     # imgprint("edges antes" , edges)
     self_adap_background = self_background(diff, matriz, previus_background)
     background = np.asarray(self_adap_background)
-    #imgprint("background2", background)
+    imgprint("background2", background)
 
     # Previus
     cont += 1

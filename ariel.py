@@ -4,21 +4,26 @@ import numpy as np
 cap = cv.VideoCapture('overpass.mp4')
 
 _, frame1 = cap.read()
-B, G, R = cv.split(frame1)
-frame1 = (B + G + R) / 3
+frame1 = cv.cvtColor(frame1, cv.COLOR_BGR2GRAY)
+frame1 = np.float_(frame1)
+# B, G, R = cv.split(frame1)
 frame1 = cv.normalize(frame1, 0, 1, norm_type=cv.NORM_MINMAX)
 Bg = frame1
 Thresh = np.zeros((frame1.shape[0], frame1.shape[1]))
 Thresh += 0.5
-alpha = 0.9
+alpha = 0.95
 
 _, frame2 = cap.read()
-B, G, R = cv.split(frame2)
-frame2 = (B + G + R) / 3
+frame2 = cv.cvtColor(frame2, cv.COLOR_BGR2GRAY)
+frame2 = np.float_(frame2)
+# B, G, R = cv.split(frame2)
+
 frame2 = cv.normalize(frame2, 0, 1, norm_type=cv.NORM_MINMAX)
 _, frame3 = cap.read()
-B, G, R = cv.split(frame3)
-frame3 = (B + G + R) / 3
+
+# B, G, R = cv.split(frame3)
+frame3 = cv.cvtColor(frame3, cv.COLOR_BGR2GRAY)
+frame3 = np.float_(frame3)
 frame3 = cv.normalize(frame3, 0, 1, norm_type=cv.NORM_MINMAX)
 
 while 1:
@@ -54,6 +59,8 @@ while 1:
     frame1 = frame2
     frame2 = frame3
     _, frame3 = cap.read()
-    B, G, R = cv.split(frame3)
-    frame3 = (B + G + R) / 3
+    # B, G, R = cv.split(frame3)
+
+    frame3 = cv.cvtColor(frame3, cv.COLOR_BGR2GRAY)
+    frame3 = np.float_(frame3)
     frame3 = cv.normalize(frame3, 0, 1, norm_type=cv.NORM_MINMAX)
